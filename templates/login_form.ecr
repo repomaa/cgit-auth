@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title><%= @site_name %> - <%= @labels.login %></title>
+		<meta name="robots" content="index, nofollow"/>
+		<link rel="stylesheet" type="text/css" href="<%= @css_path %>" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+	</head>
+
+	<body>
+		<form method="post" action="<%= @login_url %>">
+			<input type="hidden" name="redirect" value="<%= @redirect_url %>" />
+
+			<% if @failed %>
+				<p><%= @labels.login_failed %></p>
+			<% end %>
+
+			<fieldset>
+				<legend><%= @labels.login %></legend>
+				<div>
+					<label for="username"><%= @labels.username %>:</label>
+					<input name="username" type="text" />
+				</div>
+
+				<div>
+					<label for="password"><%= @labels.password %>:</label>
+					<input name="password" type="password" />
+				</div>
+			</fieldset>
+
+			<input type="submit" value="<%= @labels.submit %>" />
+		</form>
+	</body>
+</html>
+
+<!-- vim: ft=html -->

@@ -1,0 +1,12 @@
+export COOKIE_SECRET="change this into something long and random"
+# export SITE_NAME="CGit"
+# export SESSION_COOKIE_NAME="cgit_auth"
+# export LOGIN_LABEL="Login"
+# export LOGIN_FAILED_LABEL="Login failed"
+# export USERNAME_LABEL="Username"
+# export PASSWORD_LABEL="Password"
+# export SUBMIT_LABEL="Submit"
+# export CSS_PATH="/cgit.css"
+# export HTPASSWD_FILE="/home/git/htpasswd"
+
+# vim: ft=sh

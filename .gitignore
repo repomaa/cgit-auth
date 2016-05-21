@@ -1,0 +1,6 @@
+/doc/
+/libs/
+/.crystal/
+/.shards/
+/cgit-auth
+/config
