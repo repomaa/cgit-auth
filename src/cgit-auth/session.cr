@@ -1,41 +1,32 @@
-require "./crypt_helpers"
+require "./hmac_helpers"
 
 module Cgit::Auth
   class Session
-    extend CryptHelpers
+    extend HMACHelpers
 
-    def self.deserialize(cookie)
-      plain_cookie = decrypt(cookie)
-      expiry_date_bytes = plain_cookie[0, 8]
-      username_bytes = plain_cookie[8, plain_cookie.size - 8]
+    def self.deserialize(cookie : String)
+      verify(cookie) do |data|
+        expiry_date = Time.unix(data.read_bytes(Int64))
+        username = data.gets_to_end
 
-      expiry_epoch = (expiry_date_bytes.pointer(expiry_date_bytes.size) as Int64*).value
-      username = String.new(username_bytes)
-      expiry_date = Time.epoch(expiry_epoch)
-
-      new(username, expiry_date)
+        new(username, expiry_date)
+      end
     end
 
     getter user
 
-    def initialize(@user : String, @expiry_date : Time = Time.now + 1.month)
+    def initialize(@user : String, @expiry_date : Time = Time.utc + 1.month)
     end
 
     def expired?
-      @expiry_date < Time.now
+      @expiry_date < Time.utc
     end
 
     def serialize
-      buffer = MemoryIO.new
-      expiry_epoch = @expiry_date.epoch
-
-      expiry_slice = Slice(UInt8).new(pointerof(expiry_epoch) as UInt8*, 8)
-      username_slice = @user.to_slice
-
-      buffer.write(expiry_slice)
-      buffer.write(username_slice)
-
-      self.class.encrypt(buffer.to_slice)
+      self.class.sign do |io|
+        io.write_bytes(@expiry_date.to_unix)
+        io << user
+      end
     end
   end
 end

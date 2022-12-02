@@ -1,7 +1,7 @@
 module Cgit::Auth
   module Config
     OPTIONS = {
-      session_cookie_name: { type: String, default: "cgit_auth" }
+      session_cookie_name: { type: String, default: "cgit_auth" },
       site_name: { type: String, default: "CGit" },
       login_label: { type: String, default: "Login" },
       login_failed_label: { type: String, default: "Login failed" },

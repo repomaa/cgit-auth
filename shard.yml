@@ -1,5 +1,9 @@
 name: cgit-auth
-version: 0.1.0
+version: 0.1.1
+
+targets:
+  cgit-auth:
+    main: src/cgit-auth.cr
 
 authors:
   - Joakim Reinert <mail@jreinert.com>

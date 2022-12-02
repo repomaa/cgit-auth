@@ -16,11 +16,11 @@ module Cgit::Auth
     def authorized?
       cookie = @cookie
       return false unless cookie
-      session = Session.deserialize(cookie)
+      session = Session.deserialize(cookie.value)
       return false if session.expired?
 
       can_read?(session.user)
-    rescue OpenSSL::Cipher::Error
+    rescue HMACHelpers::InvalidSignature
       false
     end
 

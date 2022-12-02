@@ -12,7 +12,7 @@ module Cgit::Auth
       ciphertext = bytes[iv.size, bytes.size - iv.size - 16]
       tag = bytes[iv.size + ciphertext.size, 16]
 
-      buffer = MemoryIO.new
+      buffer = IO::Memory.new
       buffer.write(cipher.update(ciphertext))
       cipher.tag = tag
       buffer.write(cipher.final)
@@ -24,7 +24,7 @@ module Cgit::Auth
       cipher = OpenSSL::Cipher.new("aes-256-gcm")
       cipher.encrypt
 
-      buffer = MemoryIO.new
+      buffer = IO::Memory.new
       buffer.write(cipher.random_iv)
       buffer.write(cipher.update(data))
       buffer.write(cipher.final)
